@@ -337,7 +337,7 @@ async function exportMultiPagePDF() {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'DocsEdit.pdf';
+        link.download = 'Documentoeditado.pdf';
         link.click();
         
     } catch (e) {
@@ -346,5 +346,46 @@ async function exportMultiPagePDF() {
     } finally {
         btn.innerHTML = "Guardar";
     }
+}
+// ==========================================
+// 🖼️ SUBIR IMAGEN DIRECTO DEL CELULAR
+// ==========================================
+function uploadDynamicImage(e) {
+    if(!canvas) {
+        e.target.value = ''; // Limpiamos por si acaso
+        return alert("¡Sube un PDF primero bro!");
+    }
+    
+    const file = e.target.files[0];
+    if (!file) return;
 
+    const reader = new FileReader();
+    reader.onload = function(f) {
+        const data = f.target.result;
+        
+        fabric.Image.fromURL(data, (img) => {
+            if (!img) return;
+            
+            // Obtenemos el centro de la pantalla donde estás mirando
+            const center = canvas.getVpCenter();
+            
+            // Ajustamos el tamaño para que las fotos de la cámara (que son enormes) no tapen todo el PDF
+            const proporcion = originalPdfWidth / 800;
+            img.scaleToWidth(200 * proporcion);
+            
+            img.set({ 
+                left: center.x, 
+                top: center.y,
+                originX: 'center',
+                originY: 'center'
+            });
+            
+            canvas.add(img).setActiveObject(img);
+            canvas.requestRenderAll();
+        });
+    };
+    reader.readAsDataURL(file);
+    
+    // SÚPER IMPORTANTE: Limpiamos el input para que te deje subir la misma foto 2 veces si te equivocas y la borras
+    e.target.value = ''; 
 }
