@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GusDev - Mobile PDF Pro</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+
+    <header class="top-bar glass">
+        <div class="logo">GusDev<span>.</span></div>
+        <button class="btn-save" id="btn-save" onclick="exportMultiPagePDF()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            Guardar
+        </button>
+    </header>
+
+    <div class="page-nav glass" id="page-nav" style="display: none;">
+        <button onclick="prevPage()">◀</button>
+        <span id="page-indicator">Pág. 1 / 1</span>
+        <button onclick="nextPage()">▶</button>
+    </div>
+
+    <main class="workspace" id="workspace">
+        <div class="canvas-container-wrapper" id="canvas-wrapper">
+            <label for="pdf-upload" class="upload-placeholder" id="upload-placeholder">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <span>Toca para subir un PDF</span>
+            </label>
+            <input type="file" id="pdf-upload" accept=".pdf">
+            
+            <canvas id="pdf-canvas"></canvas>
+        </div>
+    </main>
+
+    <div id="contextual-menu" class="contextual-menu">
+        <button id="btn-edit" class="floating-btn btn-blue" onclick="editSelectedText()" style="display: none;">
+            ✏️ Editar
+        </button>
+        <button id="btn-delete" class="floating-btn btn-red" onclick="deleteSelected()">
+            🗑️ Borrar
+        </button>
+    </div>
+
+    <footer class="bottom-dock glass" id="bottom-dock">
+        <div class="dock-toggle" onclick="toggleDock()">
+            <div class="toggle-bar"></div>
+        </div>
+
+        <div class="dock-actions">
+            <button class="dock-btn" onclick="addText()">
+                <div class="icon-circle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg></div>
+                <span>Texto</span>
+            </button>
+            <div class="zoom-pill">
+                <button onclick="changeZoom(-0.15)">-</button>
+                <span id="zoom-display">100%</span>
+                <button onclick="changeZoom(0.15)">+</button>
+            </div>
+        </div>
+        
+        <div class="assets-slider" id="assets-container"></div>
+    </footer>
+
+    <script src="js/editor.js"></script>
+</body>
+</html>
