@@ -337,7 +337,7 @@ async function exportMultiPagePDF() {
         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'GusDev_MultiPagina.pdf';
+        link.download = 'DocsEdit.pdf';
         link.click();
         
     } catch (e) {
@@ -346,4 +346,5 @@ async function exportMultiPagePDF() {
     } finally {
         btn.innerHTML = "Guardar";
     }
+
 }
